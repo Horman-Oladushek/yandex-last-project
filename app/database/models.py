@@ -1,5 +1,5 @@
 from .db_session import SqlAlchemyBase
-from sqlalchemy import Column, Integer, String
+from sqlalchemy import Column, Integer, String, Boolean
 from sqlalchemy_serializer import SerializerMixin
 
 
@@ -31,6 +31,10 @@ class User(SqlAlchemyBase, SerializerMixin):
 
     #Here Boolean is a type of Column.
     is_superuser = Column(
+        Boolean, nullable=False
+    )
+
+    is_active = Column(
         Boolean, nullable=False
     )
 
