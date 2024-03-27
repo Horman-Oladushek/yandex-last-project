@@ -25,6 +25,15 @@ class User(SqlAlchemyBase, SerializerMixin):
         String, nullable=False
     )
 
+    basket = Column(
+        String, nullable=True
+    )
+
+    #Here Boolean is a type of Column.
+    is_superuser = Column(
+        Boolean, nullable=False
+    )
+
 
 class Foo(SqlAlchemyBase, SerializerMixin):
     __tablename__ = 'foos'
