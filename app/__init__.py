@@ -22,8 +22,9 @@ def not_found(error):
 def bad_request(_):
     return make_response(jsonify({'error': 'Bad Request'}), 400)
 
-api.add_resource(user_handler.ToDoListResource, '/api/v1/users')
-api.add_resource(user_handler.ToDoResource, '/api/v1/users/<int:todo_id>')
+api.add_resource(user_handler.ToDoListResource, '/api/v1/users/post')
+api.add_resource(user_handler.ToDoAllResource, '/api/v1/users/all')
+api.add_resource(user_handler.ToDoResource, '/api/v1/users/<int:user_id>')
 db_session.global_init("app/db/shop-base.db")
 
 from app import views
