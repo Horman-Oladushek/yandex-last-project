@@ -39,10 +39,10 @@ class User(SqlAlchemyBase, SerializerMixin):
     )
 
 
-class Foo(SqlAlchemyBase, SerializerMixin):
-    __tablename__ = 'foos'
+class Item(SqlAlchemyBase, SerializerMixin):
+    __tablename__ = 'items'
 
-    foo_id = Column(
+    item_id = Column(
         Integer, primary_key=True, autoincrement=True
     )
 
@@ -50,4 +50,20 @@ class Foo(SqlAlchemyBase, SerializerMixin):
         String, nullable=False
     )
 
-# и т.д.
+    description = Column(
+        String, nullable=True
+    )
+
+    price = Column(
+        Integer, nullable=False
+    )
+
+
+    discount = Column(
+        String, nullable=False
+    )
+
+    is_sale = Column(
+        Boolean, nullable=False
+    )
+
