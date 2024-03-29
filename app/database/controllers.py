@@ -5,6 +5,8 @@
 """
 from . import db_session
 from app.database.models import User, Item
+from app.database import user_parser as u_pars
+from flask import jsonify
 
 class UserController:
     @staticmethod
@@ -17,11 +19,36 @@ class UserController:
 
     @staticmethod
     def get_all_users():
-        pass
+        session = db_session.create_session()
+        users = session.query(User).all()
+        return jsonify(
+            {
+                'users': [user.to_dict(
+                    only=(
+                        'user_id', 'username', 'password',
+                        'basket', 'is_superuser', 'is_active'
+                    )
+                )
+                    for user in users]
+            }
+        )
 
     @staticmethod
     def create_user(username, password):
-        pass
+        args = u_pars.parse_args()
+        session = db_session.create_session()
+        user = User(
+            username=args['username'],
+            password=args['password'],
+            basket=None,
+            is_superuser=args['is_superuser'] if args['is_superuser'] is True else False,
+            is_active=args['is_active'] if args['is_active'] is True else False
+        )
+        session.add(user)
+        session.commit()
+        return jsonify({
+            "sucsefull": "ok"
+        })
 
     @staticmethod
     def update_user(user_id, username, password):

@@ -48,17 +48,3 @@ class UserListResource(Resource):
                 )
             }
         )
-    def get(self):
-        session = db_session.create_session()
-        users = session.query(User).all()
-        return jsonify(
-            {
-                'users': [user.to_dict(
-                    only=(
-                        'user_id', 'username', 'password',
-                        'basket', 'is_superuser', 'is_active'
-                    )
-                )
-                for user in users]
-            }
-        )
