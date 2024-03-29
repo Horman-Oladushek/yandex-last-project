@@ -1,10 +1,11 @@
 from app.database.item_parser import parser
 from flask import jsonify
 from flask_restful import Resource, abort
+from app.database.controllers import ItemController
 from app.database.models import Item
 from app.database import db_session
 
-class ToDoListItems(Resource):
+class ItemListItems(Resource):
     def post(self):
         args = parser.parse_args()
         session = db_session.create_session()

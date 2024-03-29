@@ -3,11 +3,20 @@
 
 Тут пишешь все запросы к базе данных.
 """
-
+from . import db_session
+from app.database.models import User, Item
 
 class UserController:
     @staticmethod
     def get_user(user_id):
+        session = db_session.create_session()
+        user = session.query(User).get(user_id)
+        if not user:
+            return None
+        return user
+
+    @staticmethod
+    def get_all_users():
         pass
 
     @staticmethod
@@ -23,19 +32,23 @@ class UserController:
         pass
 
 
-class FooController:
+class ItemController:
     @staticmethod
-    def get_foo(foo_id):
+    def get_item(item_id):
+        session = db_session.create_session()
+        item = session.query(Item).get(item_id)
+        if not item:
+            return None
+        return item
+
+    @staticmethod
+    def create_item(name):
         pass
 
     @staticmethod
-    def create_foo(name):
+    def update_item(item_id, name):
         pass
 
     @staticmethod
-    def update_foo(foo_id, name):
-        pass
-
-    @staticmethod
-    def delete_foo(foo_id):
+    def delete_item(item_id):
         pass

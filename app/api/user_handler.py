@@ -3,34 +3,19 @@ from flask import jsonify
 from flask_restful import Resource, abort
 from app.database.models import User
 from app.database import db_session
-from app.database.handlers.database import get_user
+from app.database.controllers import UserController
 
 
 
-class ToDoAllResource(Resource):
-    def get(self):
-        session = db_session.create_session()
-        users = session.query(User).all()
-        return jsonify(
-            {
-                'users': [user.to_dict(
-                    only=(
-                        'user_id', 'username', 'password',
-                        'basket', 'is_superuser', 'is_active'
-                    )
-                )
-                for user in users]
-            }
-        )
-class ToDoResource(Resource):
+class UserResource(Resource):
     def get(self, user_id):
-        todo = get_user(user_id)
-        if todo is None:
-            abort(404, message='Todo not found!')
+        user = UserController.get_user(user_id)
+        if user is None:
+            abort(404, message='User not found!')
             return None
         return jsonify(
             {
-                'todo': todo.to_dict(
+                'user': user.to_dict(
                     only=(
                         'user_id', 'username', 'password',
                         'basket', 'is_superuser', 'is_active'
@@ -40,7 +25,7 @@ class ToDoResource(Resource):
         )
 
 
-class ToDoListResource(Resource):
+class UserListResource(Resource):
     def post(self):
         args = parser.parse_args()
         session = db_session.create_session()
@@ -55,11 +40,25 @@ class ToDoListResource(Resource):
         session.commit()
         return jsonify(
             {
-                'users': user.to_dict(
+                'user': user.to_dict(
                     only=(
                         'user_id', 'username', 'password',
                         'basket', 'is_superuser', 'is_active'
                     )
                 )
+            }
+        )
+    def get(self):
+        session = db_session.create_session()
+        users = session.query(User).all()
+        return jsonify(
+            {
+                'users': [user.to_dict(
+                    only=(
+                        'user_id', 'username', 'password',
+                        'basket', 'is_superuser', 'is_active'
+                    )
+                )
+                for user in users]
             }
         )
