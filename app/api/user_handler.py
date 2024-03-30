@@ -27,17 +27,7 @@ class UserResource(Resource):
 
 class UserListResource(Resource):
     def post(self):
-        args = parser.parse_args()
-        session = db_session.create_session()
-        user = User(
-            username=args['username'],
-            password=args['password'],
-            basket=args['basket'],
-            is_superuser=args['is_superuser'] if args['is_superuser'] is True else False,
-            is_active=args['is_active'] if args['is_active'] is True else False
-        )
-        session.add(user)
-        session.commit()
+        user = UserController.create_user()
         return jsonify(
             {
                 'user': user.to_dict(
@@ -46,5 +36,35 @@ class UserListResource(Resource):
                         'basket', 'is_superuser', 'is_active'
                     )
                 )
+            }
+        )
+
+class UserResource(Resource):
+    def get(self, user_id):
+        user = UserController.get_user(user_id)
+        if user is None:
+            abort(404, message='User not found!')
+            return None
+        return jsonify(
+            {
+                'user': user.to_dict(
+                    only=(
+                        'user_id', 'username', 'password',
+                        'basket', 'is_superuser', 'is_active'
+                    )
+                )
+            }
+        )
+    def post(self):
+        users = UserController.get_all_users()
+        return jsonify(
+            {
+                'users': [users.to_dict(
+                    only=(
+                        'user_id', 'username', 'password',
+                        'basket', 'is_superuser', 'is_active'
+                    )
+                )
+                for user in users]
             }
         )
