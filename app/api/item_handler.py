@@ -1,14 +1,14 @@
 from app.database.item_parser import parser
 from flask import jsonify
 from flask_restful import Resource, abort
-from app.database.controllers import ItemController
+from app.database.requirements import ItemController
 from app.database.models import Item
 from app.database import db_session
 
 class ItemListItems(Resource):
     def post(self):
         args = parser.parse_args()
-        session = db_session.create_session()
+
         item = Item(
             name=args['name'],
             description=args['description'],
@@ -16,8 +16,7 @@ class ItemListItems(Resource):
             is_sale=args['is_sale'] if args['is_sale'] is True else False,
             discount=args['discount'] if args['is_sale'] is True else "0"
         )
-        session.add(item)
-        session.commit()
+        ItemController.create_item(item)
         return jsonify(
             {
                 'item': item.to_dict(

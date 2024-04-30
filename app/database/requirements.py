@@ -25,16 +25,9 @@ class UserController:
         return users
 
     @staticmethod
-    def create_user():
+    def create_user(user):
         args = u_parser.parse_args()
         session = db_session.create_session()
-        user = User(
-            username=args['username'],
-            password=args['password'],
-            basket=args['basket'],
-            is_superuser=args['is_superuser'] if args['is_superuser'] is True else False,
-            is_active=args['is_active'] if args['is_active'] is True else False
-        )
         session.add(user)
         session.commit()
         return user
@@ -58,8 +51,10 @@ class ItemController:
         return item
 
     @staticmethod
-    def create_item(name):
-        pass
+    def create_item(item):
+        session = db_session.create_session()
+        session.add(item)
+        session.commit()
 
     @staticmethod
     def update_item(item_id, name):
