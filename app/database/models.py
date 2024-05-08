@@ -1,67 +1,56 @@
-from .db_session import SqlAlchemyBase
-from sqlalchemy import Column, Integer, String, Boolean
-from sqlalchemy_serializer import SerializerMixin
+import sqlalchemy
+
+from sqlalchemy.orm import DeclarativeBase
+from flask_login import UserMixin
 
 
-"""
-все модели.
-"""
+class Base(DeclarativeBase):
+    pass
 
 
-class User(SqlAlchemyBase, SerializerMixin):
-    __tablename__ = 'users'
+class User(Base, UserMixin):
+    __tablename__ = "users"
 
-    user_id = Column(
-        Integer, primary_key=True, autoincrement=True
+    user_id = sqlalchemy.Column(
+        sqlalchemy.Integer,
+        autoincrement=True,
+        primary_key=True
     )
 
-    username = Column(
-        String, nullable=False
+    login = sqlalchemy.Column(
+        sqlalchemy.String(256),
+        unique=True
     )
 
-    password = Column(
-        String, nullable=False
+    password = sqlalchemy.Column(
+        sqlalchemy.String(256)
     )
 
-    basket = Column(
-        String, nullable=True
+    def get_id(self):
+        return self.user_id
+
+
+class Product(Base):
+    __tablename__ = "products"
+
+    product_id = sqlalchemy.Column(
+        sqlalchemy.Integer,
+        autoincrement=True,
+        primary_key=True
     )
 
-    #Here Boolean is a type of Column.
-    is_superuser = Column(
-        Boolean, nullable=False
+    title = sqlalchemy.Column(
+        sqlalchemy.String(256)
     )
 
-    is_active = Column(
-        Boolean, nullable=False
+    description = sqlalchemy.Column(
+        sqlalchemy.String(512)
     )
 
-
-class Item(SqlAlchemyBase, SerializerMixin):
-    __tablename__ = 'items'
-
-    item_id = Column(
-        Integer, primary_key=True, autoincrement=True
+    price = sqlalchemy.Column(
+        sqlalchemy.Integer
     )
 
-    name = Column(
-        String, nullable=False
+    quantity = sqlalchemy.Column(
+        sqlalchemy.Integer
     )
-
-    description = Column(
-        String, nullable=True
-    )
-
-    price = Column(
-        Integer, nullable=False
-    )
-
-
-    discount = Column(
-        String, nullable=False
-    )
-
-    is_sale = Column(
-        Boolean, nullable=False
-    )
-

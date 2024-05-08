@@ -1,4 +1,11 @@
-0 - just saleman
-1 - oldest saleman
-2 - shop manager
-3 - system admin
+# Yandex Last Project
+
+Чтобы запустить проект, выполните следующие действия:
+
+Установите Docker
+
+Выполните в консоли команду:
+
+```bash
+docker compose up --build -d
+```

@@ -1,4 +1,5 @@
 SQLAlchemy
 flask
-sqlalchemy-serializer
 python-dotenv
+Flask-WTF
+flask-login

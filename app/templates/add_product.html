@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+
+
+{% block content %}
+<div class="container mt-5">
+    <h2>Add new product</h2>
+    <form method="POST">
+        {{ form.hidden_tag() }}
+        <div class="form-group">
+            <label for="title">Title</label>
+            {{ form.title(class="form-control", id="title", required=True) }}
+        </div>
+        <div class="form-group">
+            <label for="description">Description</label>
+            {{ form.description(class="form-control", id="description", required=True) }}
+        </div>
+        <div class="form-group">
+            <label for="price">Price</label>
+            {{ form.price(class="form-control", id="price", type="number", required=True) }}
+        </div>
+        <div class="form-group">
+            <label for="quantity">Quantity</label>
+            {{ form.quantity(class="form-control", id="quantity", type="number", required=True) }}
+        </div>
+        <div class="form-group">
+            {{ form.submit(class="btn btn-primary") }}
+        </div>
+    </form>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
+{% endblock %}

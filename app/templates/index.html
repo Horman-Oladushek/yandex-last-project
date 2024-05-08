@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="container-fluid mt-4">
+    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-2 gx-5">
+        {% for item in data %}
+        <div class="col">
+            <div class="card h-100">
+                <img src="" class="card-img-top" alt="">
+                <div class="card-body">
+                    <h5 class="card-title"> {{ item.title }} </h5>
+                    <p class="card-text"><b>Описание:</b> {{ item.description }} </p>
+                    <p class="card-text"><b>Количество:</b> {{ item.quantity }} </p>
+                </div>
+                <div class="card-footer">
+                    <small class="text-muted">Цена: {{ item.price }}</small>
+                    {% if current_user.is_authenticated %}
+                    <form method="post" action="/products/delete/{{ item.product_id }}">
+                        <button type="submit" class="btn btn-danger btn-sm">
+                            Удалить
+                        </button>
+                    </form>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+<script src="{{ url_for('static', filename='js/bootstrap.bundle.min.js') }}"></script>
+
+
+{% endblock %}
